@@ -16,11 +16,12 @@ public class Repository implements Parcelable {
 	@SerializedName("stargazers_count")
 	public
 	int stars;
-	String language;
-	String homepage;
-	User owner;
+	public String language;
+	public String homepage;
+	public User owner;
 	public int forks;
 	public int watchers;
+	public boolean fork;
 
 	protected Repository(Parcel in) {
 		id = in.readLong();
@@ -32,6 +33,7 @@ public class Repository implements Parcelable {
 		language = in.readString();
 		homepage = in.readString();
 		owner = in.readParcelable(User.class.getClassLoader());
+		fork = in.readByte() != 0;
 	}
 
 	public static final Creator<Repository> CREATOR = new Creator<Repository>() {
@@ -62,5 +64,19 @@ public class Repository implements Parcelable {
 		dest.writeString(language);
 		dest.writeString(homepage);
 		dest.writeParcelable(owner, flags);
+		dest.writeByte(fork ? (byte) 1 : (byte) 0);
 	}
+
+	public boolean hasHomepage() {
+		return homepage != null && !homepage.isEmpty();
+	}
+
+	public boolean hasLanguage() {
+		return language != null && !language.isEmpty();
+	}
+
+	public boolean isFork() {
+		return fork;
+	}
+
 }

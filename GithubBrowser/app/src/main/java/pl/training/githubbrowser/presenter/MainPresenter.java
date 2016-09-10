@@ -1,5 +1,7 @@
 package pl.training.githubbrowser.presenter;
 
+import android.util.Log;
+
 import java.util.List;
 
 import pl.training.githubbrowser.model.GitHub;
@@ -15,6 +17,7 @@ import rx.schedulers.Schedulers;
  */
 public class MainPresenter implements Presenter<MainView> {
 
+	private static final String TAG = "MainPresenter";
 	private MainView mainView;
 	private Subscription subscription;
 	private GitHub gitHub;
@@ -37,7 +40,7 @@ public class MainPresenter implements Presenter<MainView> {
 
 	}
 
-	void loadRepositories(String username) {
+	public void loadRepositories(String username) {
 
 		subscription = gitHub.publicRepositories(username)
 				.observeOn(AndroidSchedulers.mainThread())
@@ -51,7 +54,7 @@ public class MainPresenter implements Presenter<MainView> {
 
 					@Override
 					public void onError(Throwable error) {
-
+						Log.d(TAG, "Error: "+error);
 					}
 
 					@Override
@@ -59,8 +62,6 @@ public class MainPresenter implements Presenter<MainView> {
 						mainView.showRepositories(repositories);
 					}
 				});
-
-
 	}
 
 	public void setGitHub(GitHub gitHub) {

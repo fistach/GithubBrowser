@@ -11,14 +11,14 @@ import com.google.gson.annotations.SerializedName;
 public class User implements Parcelable {
 
 	private long id;
-	private String name;
-	private String url;
-	private String email;
+	public String name;
+	public String url;
+	public String email;
 	private String login;
-	private String location;
+	public String location;
 
 	@SerializedName("avatar_url")
-	private String avatarUrl;
+	public String avatarUrl;
 
 	protected User(Parcel in) {
 		id = in.readLong();
@@ -57,4 +57,13 @@ public class User implements Parcelable {
 		dest.writeString(location);
 		dest.writeString(avatarUrl);
 	}
+
+	public boolean hasEmail() {
+		return email != null && !email.isEmpty();
+	}
+
+	public boolean hasLocation() {
+		return location != null && !location.isEmpty();
+	}
+
 }

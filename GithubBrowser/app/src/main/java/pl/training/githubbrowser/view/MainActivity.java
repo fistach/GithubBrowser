@@ -2,70 +2,94 @@ package pl.training.githubbrowser.view;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.List;
 
-import butterknife.BindView;
+import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import pl.training.githubbrowser.GithubBrowserApplication;
 import pl.training.githubbrowser.R;
-import pl.training.githubbrowser.model.GitHub;
 import pl.training.githubbrowser.model.Repository;
-import retrofit2.adapter.rxjava.HttpException;
-import rx.Subscriber;
+import pl.training.githubbrowser.presenter.MainPresenter;
+import pl.training.githubbrowser.presenter.Presenter;
+import pl.training.githubbrowser.presenter.PresenterBinder;
 import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
 
 /**
  * Created by fist on 2016-09-10.
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MainView {
 
 	private static final String TAG = "MainActivity";
+	private Presenter presenter;
 
 	Subscription subscription;
 
-	@BindView(R.id.repos_recycler_view)
+	@Bind(R.id.repos_recycler_view)
 	RecyclerView reposRecyclerView;
 
-	@BindView(R.id.toolbar)
+	@Bind(R.id.toolbar)
 	Toolbar toolbar;
 
-	@BindView(R.id.edit_text_username)
+	@Bind(R.id.edit_text_username)
 	EditText editText;
 
-	@BindView(R.id.progress)
+	@Bind(R.id.progress)
 	ProgressBar progressBar;
 
-	@BindView(R.id.text_info)
+	@Bind(R.id.text_info)
 	TextView infoTextView;
 
-//	@BindView(R.id.button_search)
-//	Button search;
+	@Bind(R.id.button_search)
+	ImageButton search;
+	private MainPresenter mainPresenter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		ButterKnife.bind(this);
+		PresenterBinder.bind(this);
+		setupRecyclerView(reposRecyclerView);
 	}
 
 	@OnClick(R.id.button_search)
 	void loadRepos() {
-//		throw new RuntimeException("AAAA");
 		progressBar.setVisibility(View.VISIBLE);
 		reposRecyclerView.setVisibility(View.GONE);
 		infoTextView.setVisibility(View.GONE);
-//		search.setVisibility(View.GONE);
+		search.setVisibility(View.GONE);
+		mainPresenter.loadRepositories(editText.getText().toString());
+	}
+
+	@Override
+	public void showRepositories(List<Repository> repositories) {
+
+	}
+
+	@Override
+	public void setPresenter(MainPresenter presenter) {
+		this.mainPresenter = presenter;
+	}
+
+	private void setupRecyclerView(RecyclerView recyclerView) {
+		RepositoryAdapter adapter = new RepositoryAdapter();
+		adapter.setCallback(new RepositoryAdapter.Callback() {
+			@Override
+			public void onItemClick(Repository repository) {
+				startActivity(RepositoryActivity.newIntent(MainActivity.this, repository));
+			}
+		});
+		recyclerView.setAdapter(adapter);
+		recyclerView.setLayoutManager(new LinearLayoutManager(this));
 	}
 
 }
