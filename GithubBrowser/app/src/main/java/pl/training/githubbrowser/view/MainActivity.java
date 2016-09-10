@@ -49,23 +49,23 @@ public class MainActivity extends AppCompatActivity {
 	@BindView(R.id.text_info)
 	TextView infoTextView;
 
-	@BindView(R.id.button_search)
-	Button search;
+//	@BindView(R.id.button_search)
+//	Button search;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		ButterKnife.bind(this);
-
 	}
 
 	@OnClick(R.id.button_search)
 	void loadRepos() {
+//		throw new RuntimeException("AAAA");
 		progressBar.setVisibility(View.VISIBLE);
 		reposRecyclerView.setVisibility(View.GONE);
 		infoTextView.setVisibility(View.GONE);
-		search.setVisibility(View.VISIBLE);
+//		search.setVisibility(View.GONE);
 
 
 		GithubBrowserApplication application = GithubBrowserApplication.get(this);
@@ -78,13 +78,13 @@ public class MainActivity extends AppCompatActivity {
 					@Override
 					public void onCompleted() {
 						progressBar.setVisibility(View.GONE);
-						if (reposRecyclerView.getAdapter().getItemCount() > 0) {
-							reposRecyclerView.requestFocus();
-							reposRecyclerView.setVisibility(View.VISIBLE);
-						} else {
-							infoTextView.setText(R.string.text_empty_repos);
-							infoTextView.setVisibility(View.VISIBLE);
-						}
+//						if (reposRecyclerView.getAdapter().getItemCount() > 0) {
+//							reposRecyclerView.requestFocus();
+//							reposRecyclerView.setVisibility(View.VISIBLE);
+//						} else {
+//							infoTextView.setText(R.string.text_empty_repos);
+//							infoTextView.setVisibility(View.VISIBLE);
+//						}
 					}
 
 					@Override
