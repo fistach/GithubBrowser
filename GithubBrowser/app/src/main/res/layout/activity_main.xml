@@ -11,7 +11,8 @@
         android:layout_height="110dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/octocat" />
+        android:src="@drawable/octocat"
+        />
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -42,8 +43,8 @@
             android:layout_marginLeft="5dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/ic_search_white_36dp"
-            android:visibility="gone"
-            tools:visibility="visible"/>
+            android:visibility="visible"
+            />
 
         <EditText
             android:id="@+id/edit_text_username"

@@ -10,17 +10,17 @@ import com.google.gson.annotations.SerializedName;
  */
 public class Repository implements Parcelable {
 
-	private long id;
-	private String name;
-	private String description;
-	private int forks;
-	private int watchers;
+	long id;
+	public String name;
+	public String description;
 	@SerializedName("stargazers_count")
-	private int stars;
-	private String language;
-	private String homepage;
-	private User owner;
-	private boolean fork;
+	public
+	int stars;
+	String language;
+	String homepage;
+	User owner;
+	public int forks;
+	public int watchers;
 
 	protected Repository(Parcel in) {
 		id = in.readLong();
@@ -32,7 +32,6 @@ public class Repository implements Parcelable {
 		language = in.readString();
 		homepage = in.readString();
 		owner = in.readParcelable(User.class.getClassLoader());
-		fork = in.readByte() != 0;
 	}
 
 	public static final Creator<Repository> CREATOR = new Creator<Repository>() {
@@ -63,6 +62,5 @@ public class Repository implements Parcelable {
 		dest.writeString(language);
 		dest.writeString(homepage);
 		dest.writeParcelable(owner, flags);
-		dest.writeByte((byte) (fork ? 1 : 0));
 	}
 }
