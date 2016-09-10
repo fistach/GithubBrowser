@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -72,12 +73,28 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
 	@Override
 	public void showRepositories(List<Repository> repositories) {
-
+		Log.d(TAG, "Showing repositories");
+		progressBar.setVisibility(View.GONE);
+		reposRecyclerView.setVisibility(View.VISIBLE);
+		RepositoryAdapter adapter = (RepositoryAdapter) reposRecyclerView.getAdapter();
+		adapter.setRepositories(repositories);
 	}
 
 	@Override
 	public void setPresenter(MainPresenter presenter) {
 		this.mainPresenter = presenter;
+	}
+
+	private void setupRecyclerView2(RecyclerView recyclerView) {
+		RepositoryAdapter adapter = new RepositoryAdapter();
+		adapter.setCallback(new RepositoryAdapter.Callback() {
+			@Override
+			public void onItemClick(Repository repository) {
+				startActivity(RepositoryActivity.newIntent(MainActivity.this, repository));
+			}
+		});
+		recyclerView.setAdapter(adapter);
+		recyclerView.setLayoutManager(new LinearLayoutManager(this));
 	}
 
 	private void setupRecyclerView(RecyclerView recyclerView) {
@@ -90,6 +107,12 @@ public class MainActivity extends AppCompatActivity implements MainView {
 		});
 		recyclerView.setAdapter(adapter);
 		recyclerView.setLayoutManager(new LinearLayoutManager(this));
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		if (subscription != null) subscription.unsubscribe();
 	}
 
 }

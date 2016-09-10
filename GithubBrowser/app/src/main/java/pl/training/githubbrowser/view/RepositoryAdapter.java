@@ -28,6 +28,7 @@ public class RepositoryAdapter extends RecyclerView.Adapter<RepositoryAdapter.Re
 
     public void setRepositories(List<Repository> repositories) {
         this.repositories = repositories;
+        notifyDataSetChanged();
     }
 
     public void setCallback(Callback callback) {

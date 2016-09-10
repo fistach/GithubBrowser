@@ -49,7 +49,7 @@ public class MainPresenter implements Presenter<MainView> {
 
 					@Override
 					public void onCompleted() {
-
+						Log.d(TAG, "Completed!");
 					}
 
 					@Override
@@ -59,6 +59,7 @@ public class MainPresenter implements Presenter<MainView> {
 
 					@Override
 					public void onNext(List<Repository> repositories) {
+						Log.d(TAG, "onNext");
 						mainView.showRepositories(repositories);
 					}
 				});

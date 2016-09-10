@@ -14,8 +14,7 @@ public class Repository implements Parcelable {
 	public String name;
 	public String description;
 	@SerializedName("stargazers_count")
-	public
-	int stars;
+	public int stars;
 	public String language;
 	public String homepage;
 	public User owner;

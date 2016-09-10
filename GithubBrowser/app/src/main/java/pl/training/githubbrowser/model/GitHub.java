@@ -1,8 +1,15 @@
 package pl.training.githubbrowser.model;
 
 
+import android.app.DownloadManager;
+
+import java.io.IOException;
 import java.util.List;
 
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -25,8 +32,21 @@ public interface GitHub {
 	class Factory {
 
 		public static GitHub create() {
+			OkHttpClient okHttpClient = new OkHttpClient.Builder()
+					.addInterceptor(new Interceptor() {
+						@Override
+						public Response intercept(Chain chain) throws IOException {
+							Request request = chain.request().newBuilder()
+									.addHeader("Authorization", "token 0d37f569452cfa06d9faa571d5b804928379816f")
+									.build();
+							return chain.proceed(request);
+						}
+					}).build();
+
+
 			Retrofit retrofit = new Retrofit.Builder()
 					.baseUrl("https://api.github.com")
+					.client(okHttpClient)
 					.addConverterFactory(GsonConverterFactory.create())
 					.addCallAdapterFactory(RxJavaCallAdapterFactory.create())
 					.build();
