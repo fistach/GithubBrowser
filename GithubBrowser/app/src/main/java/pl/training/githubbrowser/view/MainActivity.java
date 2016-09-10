@@ -66,51 +66,6 @@ public class MainActivity extends AppCompatActivity {
 		reposRecyclerView.setVisibility(View.GONE);
 		infoTextView.setVisibility(View.GONE);
 //		search.setVisibility(View.GONE);
-
-
-		GithubBrowserApplication application = GithubBrowserApplication.get(this);
-		GitHub github = application.getGithub();
-		subscription = github.publicRepositories(editText.getText().toString())
-			.observeOn(AndroidSchedulers.mainThread())
-				.subscribeOn(application.getDefaultScheduler())
-				.subscribe(new Subscriber<List<Repository>>() {
-
-					@Override
-					public void onCompleted() {
-						progressBar.setVisibility(View.GONE);
-//						if (reposRecyclerView.getAdapter().getItemCount() > 0) {
-//							reposRecyclerView.requestFocus();
-//							reposRecyclerView.setVisibility(View.VISIBLE);
-//						} else {
-//							infoTextView.setText(R.string.text_empty_repos);
-//							infoTextView.setVisibility(View.VISIBLE);
-//						}
-					}
-
-					@Override
-					public void onError(Throwable error) {
-						Log.e(TAG, "Error loading GitHub repos ", error);
-						progressBar.setVisibility(View.GONE);
-						if (error instanceof HttpException
-								&& ((HttpException) error).code() == 404) {
-							infoTextView.setText(R.string.error_username_not_found);
-						} else {
-							infoTextView.setText(R.string.error_loading_repos);
-						}
-						infoTextView.setVisibility(View.VISIBLE);
-					}
-
-					@Override
-					public void onNext(List<Repository> repositories) {
-						Log.i(TAG, "Repos loaded " + repositories);
-						RepositoryAdapter adapter =
-								(RepositoryAdapter) reposRecyclerView.getAdapter();
-						adapter.setRepositories(repositories);
-						adapter.notifyDataSetChanged();
-					}
-				});
-
-
 	}
 
 }

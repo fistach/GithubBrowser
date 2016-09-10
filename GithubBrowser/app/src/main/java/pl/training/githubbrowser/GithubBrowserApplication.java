@@ -1,10 +1,6 @@
 package pl.training.githubbrowser;
 
 import android.app.Application;
-
-
-
-import android.app.Application;
 import android.content.Context;
 
 import pl.training.githubbrowser.model.GitHub;
