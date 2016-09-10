@@ -20,6 +20,28 @@ public class User implements Parcelable {
 	@SerializedName("avatar_url")
 	private String avatarUrl;
 
+	protected User(Parcel in) {
+		id = in.readLong();
+		name = in.readString();
+		url = in.readString();
+		email = in.readString();
+		login = in.readString();
+		location = in.readString();
+		avatarUrl = in.readString();
+	}
+
+	public static final Creator<User> CREATOR = new Creator<User>() {
+		@Override
+		public User createFromParcel(Parcel in) {
+			return new User(in);
+		}
+
+		@Override
+		public User[] newArray(int size) {
+			return new User[size];
+		}
+	};
+
 	@Override
 	public int describeContents() {
 		return 0;
@@ -27,6 +49,12 @@ public class User implements Parcelable {
 
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
-
+		dest.writeLong(id);
+		dest.writeString(name);
+		dest.writeString(url);
+		dest.writeString(email);
+		dest.writeString(login);
+		dest.writeString(location);
+		dest.writeString(avatarUrl);
 	}
 }
