@@ -2,11 +2,13 @@ package pl.training.githubbrowser.presenter;
 
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import pl.training.githubbrowser.model.GitHub;
 import pl.training.githubbrowser.model.Repository;
 import pl.training.githubbrowser.view.MainView;
+import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -21,6 +23,7 @@ public class MainPresenter implements Presenter<MainView> {
 	private MainView mainView;
 	private Subscription subscription;
 	private GitHub gitHub;
+	private Observable<ArrayList<Repository>> observableReposList = Observable.just(new ArrayList<Repository>());
 
 	public MainPresenter() {
 		gitHub = GitHub.Factory.create();
@@ -50,6 +53,7 @@ public class MainPresenter implements Presenter<MainView> {
 					@Override
 					public void onCompleted() {
 						Log.d(TAG, "Completed!");
+
 					}
 
 					@Override

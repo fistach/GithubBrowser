@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
 		setContentView(R.layout.activity_main);
 		ButterKnife.bind(this);
 		PresenterBinder.bind(this);
+
 		setupRecyclerView(reposRecyclerView);
 	}
 
